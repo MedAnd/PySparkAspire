@@ -1,0 +1,68 @@
+# Ignore Visual Studio temporary files, build results, and user-specific files
+
+# Build Folders
+[Bb]in/
+[Oo]bj/
+out/
+publish/
+artifacts/
+
+# Visual Studio / VSCode
+.vs/
+.vscode/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Rider
+.idea/
+*.sln.iml
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+.nuget/packages/
+
+# MSBuild generated files
+project.lock.json
+project.fragment.lock.json
+
+# Resharper
+_ReSharper*/
+*.__ReSharper*/
+*.DotSettings.user
+
+# dotCover
+*.dotCover
+
+# Test results
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+*.trx
+
+# Publish Web
+.publish/
+*.PublishProfiles
+
+# Local env
+.env
+.env.*.local
+
+# ASP.NET Core development settings
+appsettings.Development.json
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Generated files
+Generated Files/

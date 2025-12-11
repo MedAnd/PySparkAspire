@@ -1,0 +1,51 @@
+# Dockerignore to reduce build context and avoid sending secrets
+
+# Build outputs
+[Bb]in/
+[Oo]bj/
+out/
+publish/
+artifacts/
+
+# Source control and misc
+.git
+.gitignore
+.vs/
+.vscode/
+.idea/
+
+# NuGet / packages
+packages/
+*.nupkg
+.nuget/
+
+# Local config / secrets
+.env
+*.env
+appsettings.Development.json
+*.user
+*.suo
+
+# Test / logs / coverage
+TestResults/
+*.trx
+*.log
+coverage/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Data / large files
+data/
+*.csv
+
+# Python / Node envs
+venv/
+env/
+node_modules/
+__pycache__/
+*.pyc
+
+# Notebook checkpoints
+.ipynb_checkpoints/
