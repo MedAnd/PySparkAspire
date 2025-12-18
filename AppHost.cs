@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text.Json.Nodes;
 using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
 
@@ -7,12 +8,35 @@ var builder = DistributedApplication.CreateBuilder(args);
 // Create a local folder to persist your notebooks (relative to AppHost project)
 var notebooksDir = Path.Combine(Directory.GetCurrentDirectory(), "pyspark-notebooks");
 
+// Add Azure Event Hubs Emulator as a container
+var azureEventHubs = builder.AddAzureEventHubs("azure-event-hubs")
+    .RunAsEmulator(emulator =>
+    {
+        emulator
+            .WithHostPort(7777)
+            .WithLifetime(ContainerLifetime.Persistent);
+    });
+
+// Add an Event Hub named "messages"
+azureEventHubs.AddHub("messages");
+
 // Add Azure Cosmos DB Emulator as a container
 var azureCosmosDB = builder.AddAzureCosmosDB("azure-cosmos-db")
     .RunAsPreviewEmulator(emulator =>
     {
-        emulator.WithDataExplorer();
-        emulator.WithLifetime(ContainerLifetime.Persistent);
+        emulator
+            .WithDataExplorer()
+            .WithGatewayPort(7788)
+            .WithEnvironment(context =>
+            {
+                context.EnvironmentVariables["ENABLE_OTLP_EXPORTER"] = "true";
+                context.EnvironmentVariables["ENABLE_CONSOLE_EXPORTER"] = "true";
+                context.EnvironmentVariables["ENABLE_TELEMETRY"] = "true";
+            
+                context.EnvironmentVariables["LOG_LEVEL"] = "info";
+            })
+            .WithOtlpExporter()
+            .WithLifetime(ContainerLifetime.Persistent);
     });
 
 // Add Azurite (Azure Storage Emulator) as a container
@@ -120,9 +144,10 @@ var pySpark = builder
     {
         url.DisplayText = "Spark Server";
     })
+    //.WaitFor(azureCosmosDB)
     .WaitFor(azureStorage)
+    .WaitFor(azureEventHubs)
     .WaitFor(kafka)
-    .WaitFor(azureCosmosDB)
     .WithLifetime(ContainerLifetime.Persistent);
 
 builder.Build().Run();
