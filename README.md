@@ -11,6 +11,9 @@ Combining the power and elegance of the Aspire framework with JupyterLab & PySpa
 - **Combine Aspire + JupyterLab**: Provide a simple, quick, no‑friction local dev experience by combining Aspire with JupyterLab notebooks.
 - **Pre‑loaded Azure libraries**: Ship a local environment with PySpark and the Azure SDK for Python available out of the box so you can prototype quickly.
 - **Local Azure Blob integration**: Provide easy local Blob storage via the official Azurite emulator.
+- **Local Cosmos DB integration**: Provide easy local Cosmos DB via the official Cosmos DB (Preview) emulator.
+- **Local Kafka, Kafka Connect, Schema Registry** etc.
+
 - **Deployment readiness**: While this project focuses on **local development**, the same notebooks can be adapted for deployment to **Azure Synapse** or **Microsoft Fabric** environments.
 
 ---
@@ -58,16 +61,17 @@ Follow these steps to get everything running smoothly:
 
 3. 📦 **Run Aspire**
     ```bash
-   dotnet run
+   aspire run
     ```
 
 ### 🚀 What Happens When You Run Aspire
 
-Running `dotnet run` will:
+Running `aspire run` will:
 
 - 🌐 Launch the **Aspire application** and open the **Aspire Dashboard** in your browser.  
-- 📦 Start the local **Azurite emulator** automatically.  
-- 📒 Spin up the **JupyterLab container** — no need to run Azurite manually.  
+- 📦 Start the local **Azurite & Cosmos DB emulators** automatically.  
+- 📒 Spin up the **Kafka, Kafka Connect, Schema Registry containers**. 
+- 📒 Spin up the **JupyterLab container**.  
 
 ---
 
@@ -84,7 +88,8 @@ After Aspire has started:
 
 - 📒 **Project notebooks**: The `pyspark-notebooks` folder is bound to JupyterLab at `/home/jovyan/work` for convenience — edit locally and work in Jupyter seamlessly.
 - 📂 **Data mounting**: The `data/` folder lets notebooks read `data/hr.csv` directly or access blobs through the Azurite endpoint.
-- 🌐 **Azurite endpoint**: If you need the blob endpoint URL for notebooks, it will typically be:  
+- 🌐 **Azurite endpoint**: If you need the blob endpoint URL for notebooks, it will typically be:
+`http://azure-storage:10000`
 
 Configure your connection strings in notebooks to point to this endpoint when running against Azurite.
 
